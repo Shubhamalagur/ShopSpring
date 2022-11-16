@@ -6,6 +6,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.oliver.shopSpring.entity.fk.OrdemItemPk;
 
 @Entity
@@ -29,6 +30,7 @@ public class OrdemItem implements Serializable {
 
 	public OrdemItem(OrderEntity ordem, ProductEntity produto , Integer quantidade, Double preco) {
 		//
+		idPk = new OrdemItemPk();//
 		idPk.setOrdem(ordem);
 		idPk.setProduto(produto);
 		
@@ -37,6 +39,7 @@ public class OrdemItem implements Serializable {
 	}
 
 	//
+	@JsonIgnore
 	public OrderEntity getOrdem() {
 		return idPk.getOrdem();
 	}

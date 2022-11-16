@@ -8,11 +8,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.oliver.shopSpring.entity.CategoryEntity;
+import com.oliver.shopSpring.entity.OrdemItem;
 import com.oliver.shopSpring.entity.OrderEntity;
 import com.oliver.shopSpring.entity.ProductEntity;
 import com.oliver.shopSpring.entity.UserEntity;
 import com.oliver.shopSpring.entity.enums.OrderStatus;
 import com.oliver.shopSpring.repository.CategoryRepsitory;
+import com.oliver.shopSpring.repository.OrdemItemRepository;
 import com.oliver.shopSpring.repository.OrderRepsitory;
 import com.oliver.shopSpring.repository.ProductRepository;
 import com.oliver.shopSpring.repository.UserRepository;
@@ -25,13 +27,15 @@ public class TestConfig implements CommandLineRunner {
 	private final OrderRepsitory orderRepsitory;
 	private final CategoryRepsitory categoriaRepsitory;
 	private final ProductRepository productRepsitory;
+	private final OrdemItemRepository ordemItemRepositor;
 
 	public TestConfig(UserRepository userRepository, OrderRepsitory orderRepsitory, CategoryRepsitory 
-			categoriaRepsitory,ProductRepository productRepsitory) {
+			categoriaRepsitory,ProductRepository productRepsitory, OrdemItemRepository ordemItemRepositor) {
 		this.userRepository = userRepository;
 		this.orderRepsitory = orderRepsitory;
 		this.categoriaRepsitory = categoriaRepsitory;
 		this.productRepsitory = productRepsitory;
+		this.ordemItemRepositor = ordemItemRepositor;
 	}
 
 	@Override
@@ -74,6 +78,15 @@ public class TestConfig implements CommandLineRunner {
 		OrderEntity o3 = new OrderEntity(null, Instant.parse("2022-07-22T15:21:22Z"), OrderStatus.ESPERANDO_PAGAMENTO,u1); 
 		
 		orderRepsitory.saveAll(Arrays.asList(o1,o2,o3));
+		
+		
+		//n:n com tabela com dados extras e chave composta
+		OrdemItem oi1 = new OrdemItem(o1, p1, 2, p1.getPreco());
+		OrdemItem oi2 = new OrdemItem(o1, p3, 1, p3.getPreco());
+		OrdemItem oi3 = new OrdemItem(o2, p3, 2, p3.getPreco());
+		OrdemItem oi4 = new OrdemItem(o3, p5, 2, p5.getPreco());
+		
+		ordemItemRepositor.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 		
 	}
 	

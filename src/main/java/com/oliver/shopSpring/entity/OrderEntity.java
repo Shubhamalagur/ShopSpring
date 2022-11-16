@@ -2,6 +2,8 @@ package com.oliver.shopSpring.entity;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -27,11 +30,15 @@ public class OrderEntity implements Serializable{
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant momento;
 	
+	private Integer statusPedido;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
 	private UserEntity cliente;
 	
-	private Integer statusPedido;
+	@OneToMany(mappedBy = "idPk.ordem")//
+	private Set<OrdemItem> items = new HashSet<>();
+	
 
 	public OrderEntity(Long id, Instant momento,OrderStatus statusPedido, UserEntity cliente) {
 		super();
@@ -40,6 +47,13 @@ public class OrderEntity implements Serializable{
 		this.setStatusPedido(statusPedido);
 		this.cliente = cliente;
 	}
+	
+	
+
+	public Set<OrdemItem> getItems() {
+		return items;
+	}
+
 
 	public OrderEntity() {
 		super();
