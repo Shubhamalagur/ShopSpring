@@ -60,7 +60,7 @@ public class TestConfig implements CommandLineRunner {
 				p5.getCategorias().add(cat2);
 
 				productRepsitory.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
-
+		//---
 
 		
 		UserEntity u1 = new UserEntity( "Maria Brown", "maria@gmail.com", "988888888", "123456");
