@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -36,6 +38,9 @@ public class ProductEntity implements Serializable {
 	joinColumns = @JoinColumn(name = "id_produto"), 
 	inverseJoinColumns = @JoinColumn(name = "id_categoria"))
 	private Set<CategoryEntity> categorias= new HashSet<>();
+	
+	@OneToMany(mappedBy = "idPk.produto")
+	private Set<OrdemItem> items = new HashSet<>();
 
 	public ProductEntity(Long id, String nome, String descricao, Double preco, String imgUrl) {
 		super();
@@ -45,6 +50,7 @@ public class ProductEntity implements Serializable {
 		this.preco = preco;
 		this.imgUrl = imgUrl;
 	}
+	
 
 	public ProductEntity() {
 		super();
@@ -92,6 +98,16 @@ public class ProductEntity implements Serializable {
 
 	public Set<CategoryEntity> getCategorias() {
 		return categorias;
+	}
+	//
+	public Set<OrderEntity> getOrdem() {
+		
+		Set<OrderEntity> ordem = new HashSet<>();
+		
+		for (OrderEntity orderEntity : ordem) {
+			ordem.add(orderEntity);
+		}
+		return ordem;
 	}
 
 	@Override
